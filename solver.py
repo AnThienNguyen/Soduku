@@ -52,6 +52,7 @@ def print_board(bo):
             else:
                 print(str(bo[i][j]) + " ", end="")
 
+# find next empty spot in board
 def find_empty(bo):
     for i in range(len(bo)):
         for j in range(len(bo[0])):
