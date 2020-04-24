@@ -30,8 +30,6 @@ class Grid:
         [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
 
-    
-
     def __init__(self, rows, cols, width, height, win):
         self.rows = rows
         self.cols = cols
@@ -174,7 +172,6 @@ class Grid:
     def solve_board(self):
         find = find_empty(self.model)
         if not find:
-            pygame.time.delay(100)
             return True
         else:
             row, col = find

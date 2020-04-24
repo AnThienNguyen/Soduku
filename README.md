@@ -6,7 +6,7 @@ It uses a backtracking algorith to solve the board. This project includes a Sudo
 
 To see the backtracking algorithm in action, simply press the spacebar to watch it go. Green boxes indicate a valid value was found. If the algorithm backtracks, the box will be marked red.
 
-![solving](img/solving.gif)
+![solving](img/solve2.gif)
 
 
 ## Getting Started
@@ -17,7 +17,7 @@ Click on any of the boxes and type a number 1-9 to pencil in a number.
 
 ![Penciled in](img/pencil.JPG)
 
-Press enter to confirm the penciled in number in the selected box. To delete a penciled in number, press DEL or backspace. You can get hints by pressing the h key. Hints are written in blue.
+Press enter to confirm the penciled in number in the selected box. To delete a penciled in number, press DEL or backspace. You can get hints by pressing the h key. Hints are written in blue and add 30 second to your time.
 
 ![Hint](img/hints.gif)
 
