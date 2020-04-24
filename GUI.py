@@ -2,12 +2,12 @@ import pygame
 # from solver import solve, valid
 import time
 import random
-
+#from generator import generate
 pygame.font.init()
 
 
 class Grid:
-    board = [
+    '''board = [
         [7, 8, 0, 4, 0, 0, 1, 2, 0],
         [6, 0, 0, 0, 7, 5, 0, 0, 9],
         [0, 0, 0, 6, 0, 1, 0, 7, 8],
@@ -17,18 +17,70 @@ class Grid:
         [0, 7, 0, 3, 0, 0, 0, 1, 2],
         [1, 2, 0, 0, 0, 7, 4, 0, 0],
         [0, 4, 9, 2, 0, 6, 0, 0, 7]
+    ]'''
+    board = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
+    answer = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ]
+
+    
 
     def __init__(self, rows, cols, width, height, win):
         self.rows = rows
         self.cols = cols
         self.width = width
         self.height = height
+        self.generate()
         self.cubes = [[Cube(self.board[i][j], i, j, width, height) for j in range(cols)] for i in range(rows)]
         self.model = None
         self.update_model()
         self.selected = None
         self.win = win
+
+    def generate(self):
+        i = 0
+        # places random values in 10 random cells
+        while i < 10:
+            row = random.randint(0, 8)
+            col = random.randint(0, 8)
+            val = random.randint(1, 9)
+
+            # checks if value is valid in cell
+            if self.board[row][col] == 0 and valid(self.board, val, (row, col)):
+                self.board[row][col] = val
+                i += 1
+
+        self.solve()
+
+        self.answer = [[self.board[i][j] for j in range(self.cols)] for i in range(self.rows)]
+
+        x = 81
+        while x > 24:
+            row = random.randint(0, 8)
+            col = random.randint(0, 8)
+
+            # only remove if not empty
+            if not self.board[row][col] == 0:
+                self.board[row][col] = 0
+                x -= 1
 
     # updates the board/model with the values stored in cubes
     def update_model(self):
@@ -36,21 +88,21 @@ class Grid:
 
     # backtracking algorithm
     def solve(self):
-        find = find_empty(self.model)
+        find = find_empty(self.board)
         if not find:
             return True
         else:
             row, col = find
 
         for i in range(1, 10):
-            if valid(self.model, i, (row, col)):
-                self.model[row][col] = i
+            if valid(self.board, i, (row, col)):
+                self.board[row][col] = i
 
                 if self.solve():
                     return True
 
                 # backtrack to last element
-                self.model[row][col] = 0
+                self.board[row][col] = 0
         return False
 
     # checks if value is valid before adding it to the board
@@ -60,7 +112,8 @@ class Grid:
             self.cubes[row][col].set(val, hint)
             self.update_model()
 
-            if valid(self.model, val, (row, col)) and self.solve():
+            # if valid(self.model, val, (row, col)) and self.solve():
+            if self.model[row][col] == self.answer[row][col]:
                 self.update_model()
                 return True
             else:
@@ -68,6 +121,14 @@ class Grid:
                 self.cubes[row][col].set_temp(0)
                 self.update_model()
                 return False
+
+    def hint(self, clue=True):
+        found = False
+        i = 1
+        while not found and i < 10:
+            if self.place(i, clue):
+                found = True
+            i += 1
 
     def sketch(self, val):
         row, col = self.selected
@@ -331,13 +392,8 @@ def main():
                     if board.cubes[i][j].value == 0:
                         hints -= 1
                         if hints >= 0:
-                            found = False
                             start -= 30
-                            i = 1
-                            while not found and i < 10:
-                                if board.place(i, True):
-                                    found = True
-                                i += 1
+                            board.hint()
 
                 if event.key == pygame.K_RETURN:
                     i, j = board.selected
