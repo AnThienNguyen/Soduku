@@ -13,15 +13,13 @@ To see the backtracking algorithm in action, simply press the spacebar to watch 
 
 Run GUI.py to play sudoku.
 
-Click on any of the boxes and type a number 1-9 to pencil in a number.
+Click on any of the boxes and type a number 1-9 to pencil in a number. Press enter to confirm the penciled in number in the selected box. To delete a penciled in number, press DEL or backspace. 
 
-![Penciled in](img/pencil.JPG)
+![Penciled in](img/pencil.gif)
 
-Press enter to confirm the penciled in number in the selected box. To delete a penciled in number, press DEL or backspace. You can get hints by pressing the h key. Hints are written in blue and add 30 second to your time.
+You can get hints by pressing the h key. Hints are written in blue and add 30 second to your time. Each game gives three hints and three strikes. After three strikes, the game will end.
 
 ![Hint](img/hints.gif)
-
-Each game gives three hints and you get three strikes. After three strikes, the game will end.
 
 
 ### Prerequisites

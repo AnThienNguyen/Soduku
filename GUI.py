@@ -1,8 +1,8 @@
 import pygame
-# from solver import solve, valid
+from solver import solve, valid, print_board
 import time
 import random
-#from generator import generate
+# from generator import generate
 pygame.font.init()
 
 
@@ -60,7 +60,7 @@ class Grid:
         self.answer = [[self.board[i][j] for j in range(self.cols)] for i in range(self.rows)]
 
         x = 81
-        while x > 24:
+        while x > 34:
             row = random.randint(0, 8)
             col = random.randint(0, 8)
 
@@ -253,6 +253,29 @@ class Cube:
         else:
             pygame.draw.rect(win, (255, 0, 0), (x, y, gap, gap), 3)
 
+    def clear_temp(self):
+        def valid(bo, num, pos):
+            # Check row
+            for i in range(len(bo[0])):
+                if bo[pos[0]][i] == num and pos[1] != i:
+                    return False
+
+            # Check column
+            for i in range(len(bo)):
+                if bo[i][pos[1]] == num and pos[0] != i:
+                    return False
+
+            # Check box
+            box_x = pos[1] // 3
+            box_y = pos[0] // 3
+
+            # loop through box
+            for i in range(box_y * 3, box_y * 3 + 3):
+                for j in range(box_x * 3, box_x * 3 + 3):
+                    if bo[i][j] == num and (i, j) != pos:
+                        return False
+            return True
+
     def set(self, value, hint=False):
         self.value = value
         self.hint = hint
@@ -342,6 +365,7 @@ def main():
     strikes = 0
     hints = 3
 
+    print_board(board.answer)
     while run:
         play_time = round(time.time() - start)
 
@@ -372,6 +396,8 @@ def main():
                     key = None
                 if event.key == pygame.K_SPACE:
                     board.solve_board()
+                if event.key == pygame.K_r:
+                    start = time.time()
                 # hints
                 if event.key == pygame.K_h:
                     i, j = board.selected
@@ -412,7 +438,6 @@ def main():
 
         redraw_window(win, board, play_time, strikes, hints)
         pygame.display.update()
-
 
 main()
 pygame.quit()
