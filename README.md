@@ -4,7 +4,9 @@ This is a sudoku game made using python. It uses a backtracking algorith to solv
 
 This project includes a Sudoku GUI made with pygame and a text-based Sudoku version that shows the backtracking algorithm. It also includes a generator file that shows how a new board gets created by randomly inserting numbers and using the backtracking algorithm.
 
-To see the backtracking algorithm in action, simply press the spacebar to watch it go. Green boxes indicate a valid value was found. If the algorithm backtracks, the box will be marked red.
+To see the backtracking algorithm in action, simply press the spacebar to watch it go. 
+
+Green boxes indicate a valid value was found. If the algorithm backtracks, the box will be marked red.
 
 ![solving](img/solve2.gif)
 
